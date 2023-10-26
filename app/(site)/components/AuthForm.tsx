@@ -2,9 +2,11 @@
 
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { BsGithub, BsGoogle } from "react-icons/bs";
 
-import Input from "@/app/components/inputs/Input";
+import AuthSocialButton from "./AuthSocialButton";
 import Button from "@/app/components/Button";
+import Input from "@/app/components/inputs/Input";
 
 type Variant = "LOG IN" | "SIGN UP";
 
@@ -51,7 +53,13 @@ const AuthForm = () => {
 			<div className="px-4 sm:px-10 py-8 bg-white shadow sm:rounded-lg">
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 					{variant === "SIGN UP" && (
-						<Input id="name" label="Name" register={register} errors={errors} />
+						<Input
+							id="name"
+							label="Name"
+							register={register}
+							errors={errors}
+							disabled={isLoading}
+						/>
 					)}
 					<Input
 						id="email"
@@ -59,6 +67,7 @@ const AuthForm = () => {
 						type="email"
 						register={register}
 						errors={errors}
+						disabled={isLoading}
 					/>
 					<Input
 						id="password"
@@ -66,6 +75,7 @@ const AuthForm = () => {
 						type="password"
 						register={register}
 						errors={errors}
+						disabled={isLoading}
 					/>
 					<div className="">
 						<Button type="submit" disabled={isLoading} fullWidth>
@@ -84,7 +94,26 @@ const AuthForm = () => {
 							</span>
 						</div>
 					</div>
-					<div className="flex gap-2 mt-6"></div>
+					<div className="flex gap-2 mt-6">
+						<AuthSocialButton
+							icon={BsGithub}
+							onClick={() => socialAction("github")}
+						/>
+						<AuthSocialButton
+							icon={BsGoogle}
+							onClick={() => socialAction("google")}
+						/>
+					</div>
+				</div>
+				<div className="flex justify-center gap-2 mt-6 px-2 text-sm text-gray-500">
+					<div className="">
+						{variant === "LOG IN"
+							? "New to Messenger?"
+							: "Already have an account?"}
+					</div>
+					<div onClick={toggleVariant} className="underline cursor-pointer">
+						{variant === "LOG IN" ? "Create an account." : "Log in."}
+					</div>
 				</div>
 			</div>
 		</div>
