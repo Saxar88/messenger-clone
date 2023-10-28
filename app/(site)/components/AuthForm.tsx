@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { BsGithub, BsGoogle } from 'react-icons/bs';
 
 import AuthSocialButton from './AuthSocialButton';
@@ -35,7 +36,10 @@ const AuthForm = () => {
         setIsLoading(true);
 
         if (variant === 'SIGN UP') {
-            axios.post('/api/register', data);
+            axios
+                .post('/api/register', data)
+                .catch(() => toast.error('Something went wrong!'))
+                .finally(() => setIsLoading(false));
         }
 
         if (variant === 'LOG IN') {
